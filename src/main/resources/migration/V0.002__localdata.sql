@@ -1,0 +1,5 @@
+INSERT INTO TODO (ID, NAME)
+VALUES (1, 'test');
+
+INSERT INTO TODO (ID, NAME)
+VALUES (2, 'update');
