@@ -13,4 +13,5 @@ public class TodoDTO {
 
     private Long id;
     private String name;
+    private String priority;
 }

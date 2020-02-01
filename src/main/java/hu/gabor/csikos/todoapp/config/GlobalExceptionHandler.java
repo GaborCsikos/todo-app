@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
         ErrorDetailsDTO errorDetails = new ErrorDetailsDTO(new Date(), ex.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgument(IllegalArgumentException ex, WebRequest request) {
+        ErrorDetailsDTO errorDetails = new ErrorDetailsDTO(new Date(), ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
 }

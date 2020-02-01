@@ -1,6 +1,7 @@
 package hu.gabor.csikos.todoapp.service;
 
 import hu.gabor.csikos.todoapp.dto.TodoDTO;
+import hu.gabor.csikos.todoapp.entity.Priority;
 import hu.gabor.csikos.todoapp.entity.Todo;
 import hu.gabor.csikos.todoapp.exception.ResourceNotFoundException;
 import hu.gabor.csikos.todoapp.mapper.TodoMapper;
@@ -33,35 +34,39 @@ class TodoServiceTest {
     @Test
     void getAllTodos() {
         //Given
-        Todo todo = new Todo(1L, "test");
+        Todo todo = new Todo(1L, "test", Priority.LOW);
         when(repository.findAll()).thenReturn(Lists.newArrayList(todo));
-        when(mapper.entityToDTO(todo)).thenReturn(new TodoDTO(1L, "test"));
+        when(mapper.entityToDTO(todo)).thenReturn(new TodoDTO(1L, "test", Priority.LOW.name()));
         //When
         List<TodoDTO> result = todoService.getAllTodos();
 
         //Then
         assertEquals(1L, result.get(0).getId());
         assertEquals("test", result.get(0).getName());
+        assertEquals(Priority.LOW.name(), result.get(0).getPriority());
+
     }
 
     @Test
     void getTododById() {
         //Given
-        Todo todo = new Todo(1L, "test");
+        Todo todo = new Todo(1L, "test", Priority.MEDIUM);
         when(repository.findById(1L)).thenReturn(Optional.of(todo));
-        when(mapper.entityToDTO(todo)).thenReturn(new TodoDTO(1L, "test"));
+        when(mapper.entityToDTO(todo)).thenReturn(new TodoDTO(1L, "test", Priority.MEDIUM.name()));
         //When
         TodoDTO result = todoService.getTododById(1L);
 
         //Then
         assertEquals(1L, result.getId());
         assertEquals("test", result.getName());
+        assertEquals(Priority.MEDIUM.name(), result.getPriority());
+
     }
 
     @Test
     void getByIdNotFound() {
         //Given
-        Todo todo = new Todo(1L, "test");
+        Todo todo = new Todo(1L, "test", Priority.HIGH);
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         //When
@@ -73,8 +78,8 @@ class TodoServiceTest {
     @Test
     void createTodo() {
         //Given
-        TodoDTO todoDTO = new TodoDTO(1L, "test");
-        Todo todo = new Todo(1L, "test");
+        TodoDTO todoDTO = new TodoDTO(1L, "test", Priority.HIGH.name());
+        Todo todo = new Todo(1L, "test", Priority.HIGH);
 
         when(repository.save(todo)).thenReturn(todo);
         when(mapper.entityToDTO(todo)).thenReturn(todoDTO);
@@ -86,14 +91,16 @@ class TodoServiceTest {
         //Then
         assertEquals(1L, result.getId());
         assertEquals("test", result.getName());
+        assertEquals(Priority.HIGH.name(), result.getPriority());
+
     }
 
     @Test
     void updateTodo() {
         //Given
-        TodoDTO todoDTO = new TodoDTO(1L, "update");
-        Todo todo = new Todo(1L, "test");
-        Todo upDated = new Todo(1L, "update");
+        TodoDTO todoDTO = new TodoDTO(1L, "update", Priority.HIGH.name());
+        Todo todo = new Todo(1L, "test", Priority.HIGH);
+        Todo upDated = new Todo(1L, "update", Priority.HIGH);
 
         when(repository.save(upDated)).thenReturn(upDated);
         when(repository.findById(1L)).thenReturn(Optional.of(todo));
@@ -105,6 +112,8 @@ class TodoServiceTest {
         //Then
         assertEquals(1L, result.getId());
         assertEquals("update", result.getName());
+        assertEquals(Priority.HIGH.name(), result.getPriority());
+
     }
 
     @Test
@@ -120,7 +129,7 @@ class TodoServiceTest {
     @Test
     void deleteId() {
         //Given
-        Todo todo = new Todo(1L, "test");
+        Todo todo = new Todo(1L, "test", Priority.LOW);
         when(repository.findById(1L)).thenReturn(Optional.of(todo));
 
         //When

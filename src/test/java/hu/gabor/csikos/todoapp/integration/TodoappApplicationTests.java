@@ -2,6 +2,7 @@ package hu.gabor.csikos.todoapp.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.gabor.csikos.todoapp.dto.TodoDTO;
+import hu.gabor.csikos.todoapp.entity.Priority;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -31,6 +32,7 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(HttpStatus.OK, todo.getStatusCode());
         assertEquals(1, todo.getBody().get(0).getId());
         assertEquals("test", todo.getBody().get(0).getName());
+        assertEquals(Priority.MEDIUM.name(), todo.getBody().get(0).getPriority());
     }
 
 
@@ -43,6 +45,8 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(HttpStatus.OK, todo.getStatusCode());
         assertEquals(2, todo.getBody().getId());
         assertEquals("update", todo.getBody().getName());
+        assertEquals(Priority.MEDIUM.name(), todo.getBody().getPriority());
+
     }
 
     @Test
@@ -58,7 +62,7 @@ public class TodoappApplicationTests extends IntegrationTest {
     @Test
     public void createTodo() {
         //Given
-        TodoDTO dto = new TodoDTO(null, "example");
+        TodoDTO dto = new TodoDTO(null, "example", Priority.HIGH.name());
 
         //When
         ResponseEntity<TodoDTO> postResponse = restTemplate.postForEntity(getRootUrl() + "/", dto, TodoDTO.class);
@@ -68,12 +72,28 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
         assertNotNull(postResponse.getBody().getId());
         assertEquals("example", postResponse.getBody().getName());
+        assertEquals("example", postResponse.getBody().getName());
+        assertEquals(Priority.HIGH.name(), postResponse.getBody().getPriority());
+
+    }
+
+    @Test
+    public void invalidEnum() {
+        //Given
+        TodoDTO dto = new TodoDTO(null, "example", "Not valid");
+
+        //When
+        ResponseEntity<TodoDTO> postResponse = restTemplate.postForEntity(getRootUrl() + "/", dto, TodoDTO.class);
+
+
+        //Then
+        assertEquals(HttpStatus.NOT_FOUND, postResponse.getStatusCode());
     }
 
     @Test
     public void updateTodo() {
         //Given
-        TodoDTO dto = new TodoDTO(1L, "updated");
+        TodoDTO dto = new TodoDTO(1L, "updated", Priority.LOW.name());
 
         //When
         restTemplate.put(getRootUrl() + "/1", dto, TodoDTO.class);
@@ -84,12 +104,14 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(HttpStatus.OK, todo.getStatusCode());
         assertEquals(1, todo.getBody().getId());
         assertEquals("updated", todo.getBody().getName());
+        assertEquals(Priority.LOW.name(), todo.getBody().getPriority());
+
     }
 
     @Test
     public void noItemToUpdate() {
         //Given
-        TodoDTO dto = new TodoDTO(6L, "updated");
+        TodoDTO dto = new TodoDTO(6L, "updated", Priority.MEDIUM.name());
 
         //Then
         restTemplate.put(getRootUrl() + "/6", dto, TodoDTO.class);
