@@ -1,9 +1,6 @@
 package hu.gabor.csikos.todoapp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Todo {
 
     @Id
@@ -26,4 +24,13 @@ public class Todo {
     @Column(name = "priority")
     private Priority priority;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "days_to_achieve_id", referencedColumnName = "id")
+    private DaysToAchieve daysToAchieve;
+
+    public Todo(Long id, String name, Priority priority) {
+        this.id = id;
+        this.name = name;
+        this.priority = priority;
+    }
 }

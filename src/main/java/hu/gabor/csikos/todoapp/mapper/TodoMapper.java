@@ -9,11 +9,15 @@ import org.springframework.stereotype.Component;
 public class TodoMapper {
 
     public TodoDTO entityToDTO(Todo todo) {
-        return new TodoDTO(todo.getId(), todo.getName(), todo.getPriority().name());
+        TodoDTO.TodoDTOBuilder builder  =  TodoDTO.builder().id(todo.getId()).name(todo.getName()).priority(todo.getPriority().name());
+        if(todo.getDaysToAchieve()!= null){
+            builder.daysToAchieve(todo.getDaysToAchieve().getDays());
+        }
+        return builder.build();
     }
 
     public Todo dtoToEntity(TodoDTO todo) {
-        return new Todo(todo.getId(), todo.getName(), Priority.valueOf(todo.getPriority()));
+        return Todo.builder().id(todo.getId()).name(todo.getName()).priority( Priority.valueOf(todo.getPriority())).build();
     }
 
     public Todo updtate(Todo todoToUpdate, TodoDTO todo) {

@@ -33,6 +33,10 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(1, todo.getBody().get(0).getId());
         assertEquals("test", todo.getBody().get(0).getName());
         assertEquals(Priority.MEDIUM.name(), todo.getBody().get(0).getPriority());
+
+        //Test One to One
+        assertEquals(12, todo.getBody().get(0).getDaysToAchieve());
+
     }
 
 
@@ -117,7 +121,7 @@ public class TodoappApplicationTests extends IntegrationTest {
         restTemplate.put(getRootUrl() + "/6", dto, TodoDTO.class);
 
         //Then
-        ResponseEntity<TodoDTO> todo = restTemplate.getForEntity(getRootUrl() + "/1", TodoDTO.class);
+        ResponseEntity<TodoDTO> todo = restTemplate.getForEntity(getRootUrl() + "/6", TodoDTO.class);
         assertEquals(HttpStatus.NOT_FOUND, todo.getStatusCode());
     }
 
