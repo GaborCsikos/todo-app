@@ -1,4 +1,4 @@
-package hu.gabor.csikos.todoapp.integration;
+package hu.gabor.csikos.todoapp.helper;
 
 import hu.gabor.csikos.todoapp.config.RedisProperties;
 import org.springframework.boot.test.context.TestConfiguration;

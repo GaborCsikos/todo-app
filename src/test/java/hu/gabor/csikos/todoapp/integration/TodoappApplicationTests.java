@@ -3,12 +3,11 @@ package hu.gabor.csikos.todoapp.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.gabor.csikos.todoapp.dto.TodoDTO;
 import hu.gabor.csikos.todoapp.entity.Priority;
+import hu.gabor.csikos.todoapp.helper.RestPageImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,33 +17,55 @@ public class TodoappApplicationTests extends IntegrationTest {
 
 
     @Test
-    public void getAllTodos() throws JsonProcessingException {
+    public void getAllTodos() {
         //Given
-        ParameterizedTypeReference<List<TodoDTO>> typeRef =
-                new ParameterizedTypeReference<List<TodoDTO>>() {
+        ParameterizedTypeReference<RestPageImpl<TodoDTO>> typeRef =
+                new ParameterizedTypeReference<RestPageImpl<TodoDTO>>() {
                 };
 
         //When
-        ResponseEntity<List<TodoDTO>> todo = restTemplate.exchange(getRootUrl() + "/", HttpMethod.GET,
+        ResponseEntity<RestPageImpl<TodoDTO>> todo = restTemplate.exchange(getRootUrl() + "/list", HttpMethod.GET,
                 null, typeRef);
 
         //Then
         assertEquals(HttpStatus.OK, todo.getStatusCode());
-        assertEquals(1, todo.getBody().get(0).getId());
-        assertEquals("test", todo.getBody().get(0).getName());
-        assertEquals(Priority.MEDIUM.name(), todo.getBody().get(0).getPriority());
+        TodoDTO dto = todo.getBody().get().filter(x -> x.getId() == 1).findFirst().get();
+        assertEquals(1, dto.getId());
+        assertEquals("test", dto.getName());
+        assertEquals(Priority.MEDIUM.name(), dto.getPriority());
 
         //Test One to One
-        assertEquals(12, todo.getBody().get(0).getDaysToAchieve());
+        assertEquals(12, dto.getDaysToAchieve());
 
         //Test One to Many
-        assertEquals("Must do today", todo.getBody().get(0).getNotes().get(0));
-        assertEquals("I need coffee", todo.getBody().get(0).getNotes().get(1));
+        assertEquals("Must do today", dto.getNotes().get(0));
+        assertEquals("I need coffee", dto.getNotes().get(1));
 
         //Test Many to Many
-        assertEquals("World domination", todo.getBody().get(0).getGoals().get(0));
+        assertEquals("World domination", dto.getGoals().get(0));
     }
 
+    @Test
+    public void testPagination() {
+        //Given
+        ParameterizedTypeReference<RestPageImpl<TodoDTO>> typeRef =
+                new ParameterizedTypeReference<RestPageImpl<TodoDTO>>() {
+                };
+
+        //When
+        ResponseEntity<RestPageImpl<TodoDTO>> todo = restTemplate.exchange(getRootUrl() + "/list?page=0&size=10", HttpMethod.GET,
+                null, typeRef);
+        //Then
+        assertEquals(HttpStatus.OK, todo.getStatusCode());
+        TodoDTO dto = todo.getBody().get().filter(x -> x.getId() == 2).findFirst().get();
+        assertEquals(2, dto.getId());
+        assertEquals("update", dto.getName());
+        assertEquals(Priority.MEDIUM.name(), dto.getPriority());
+        assertEquals(0, todo.getBody().getNumber());
+        assertEquals(10, todo.getBody().getSize());
+        assertEquals(2, todo.getBody().getTotalElements());
+        assertEquals(1, todo.getBody().getTotalPages());
+    }
 
     @Test
     public void getTodoById() throws JsonProcessingException {

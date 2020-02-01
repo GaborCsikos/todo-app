@@ -13,8 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,19 +33,23 @@ class TodoServiceTest {
     @Mock
     private TodoMapper mapper;
 
+    @Mock
+    private Pageable pageable;
+
     @Test
     void getAllTodos() {
         //Given
         Todo todo = new Todo(1L, "test", Priority.LOW);
-        when(repository.findAll()).thenReturn(Lists.newArrayList(todo));
+        Page<Todo> page = new PageImpl<Todo>(Lists.newArrayList(todo));
+        when(repository.findAll(pageable)).thenReturn(page);
         when(mapper.entityToDTO(todo)).thenReturn(new TodoDTO(1L, "test", Priority.LOW.name()));
         //When
-        List<TodoDTO> result = todoService.getAllTodos();
+        Page<TodoDTO> result = todoService.getAllTodos(pageable);
 
         //Then
-        assertEquals(1L, result.get(0).getId());
-        assertEquals("test", result.get(0).getName());
-        assertEquals(Priority.LOW.name(), result.get(0).getPriority());
+        assertEquals(1L, result.get().findFirst().get().getId());
+        assertEquals("test", result.get().findFirst().get().getName());
+        assertEquals(Priority.LOW.name(), result.get().findFirst().get().getPriority());
 
     }
 

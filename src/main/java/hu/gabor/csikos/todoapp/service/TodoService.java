@@ -1,11 +1,11 @@
 package hu.gabor.csikos.todoapp.service;
 
 import hu.gabor.csikos.todoapp.dto.TodoDTO;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TodoService {
-    List<TodoDTO> getAllTodos();
+    Page<TodoDTO> getAllTodos(Pageable pageable);
 
     TodoDTO getTododById(long id);
 

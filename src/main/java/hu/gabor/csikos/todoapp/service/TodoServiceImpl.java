@@ -6,11 +6,11 @@ import hu.gabor.csikos.todoapp.exception.ResourceNotFoundException;
 import hu.gabor.csikos.todoapp.mapper.TodoMapper;
 import hu.gabor.csikos.todoapp.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -23,8 +23,8 @@ public class TodoServiceImpl implements TodoService {
 
 
     @Override
-    public List<TodoDTO> getAllTodos() {
-        return todoRepository.findAll().stream().map(entity -> mapper.entityToDTO(entity)).collect(Collectors.toList());
+    public Page<TodoDTO> getAllTodos(Pageable pageable) {
+        return todoRepository.findAll(pageable).map(entity -> mapper.entityToDTO(entity));
     }
 
 
