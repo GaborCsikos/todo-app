@@ -36,13 +36,13 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TodoDTO> updateProduct(@PathVariable long id, @RequestBody TodoDTO todo) {
+    public ResponseEntity<TodoDTO> updateTodo(@PathVariable long id, @RequestBody TodoDTO todo) {
         TodoDTO result = todoService.updateTodo(id, todo);
         return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteProduct(@PathVariable long id) {
+    public HttpStatus deleteTodo(@PathVariable long id) {
         todoService.deleteId(id);
         return HttpStatus.OK;
     }
