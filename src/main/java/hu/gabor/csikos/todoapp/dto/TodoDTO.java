@@ -2,6 +2,8 @@ package hu.gabor.csikos.todoapp.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,6 +15,7 @@ public class TodoDTO {
     private String name;
     private String priority;
     private int daysToAchieve;
+    private List<String> notes;
 
     public TodoDTO(Long id, String name, String priority) {
         this.id = id;

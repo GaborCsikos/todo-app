@@ -3,6 +3,7 @@ package hu.gabor.csikos.todoapp.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "todo")
@@ -27,6 +28,9 @@ public class Todo {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "days_to_achieve_id", referencedColumnName = "id")
     private DaysToAchieve daysToAchieve;
+
+    @OneToMany(mappedBy="todo")
+    private List<Note> notes;
 
     public Todo(Long id, String name, Priority priority) {
         this.id = id;
