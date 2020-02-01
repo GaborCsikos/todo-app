@@ -40,6 +40,9 @@ public class TodoappApplicationTests extends IntegrationTest {
         //Test One to Many
         assertEquals("Must do today", todo.getBody().get(0).getNotes().get(0));
         assertEquals("I need coffee", todo.getBody().get(0).getNotes().get(1));
+
+        //Test Many to Many
+        assertEquals("World domination", todo.getBody().get(0).getGoals().get(0));
     }
 
 

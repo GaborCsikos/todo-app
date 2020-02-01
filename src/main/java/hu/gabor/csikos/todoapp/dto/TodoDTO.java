@@ -16,6 +16,7 @@ public class TodoDTO {
     private String priority;
     private int daysToAchieve;
     private List<String> notes;
+    private List<String> goals;
 
     public TodoDTO(Long id, String name, String priority) {
         this.id = id;

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "todo")
@@ -29,8 +30,14 @@ public class Todo {
     @JoinColumn(name = "days_to_achieve_id", referencedColumnName = "id")
     private DaysToAchieve daysToAchieve;
 
-    @OneToMany(mappedBy="todo")
+    @OneToMany(mappedBy = "todo")
     private List<Note> notes;
+    @ManyToMany
+    @JoinTable(
+            name = "todo_goal",
+            joinColumns = @JoinColumn(name = "todo_id"),
+            inverseJoinColumns = @JoinColumn(name = "goal_id"))
+    private Set<Goal> goals;
 
     public Todo(Long id, String name, Priority priority) {
         this.id = id;
