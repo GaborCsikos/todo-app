@@ -47,12 +47,16 @@
 			<groupId>it.ozimov</groupId>
 			<artifactId>embedded-redis</artifactId>
 			<version>${embedded.redis.version}</version>
-			<scope>test</scope>
 		</dependency>
-
-
-
-
+		<!-- Build project to reload classes -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
