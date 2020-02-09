@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 public class TodoMapper {
 
     public TodoDTO entityToDTO(Todo todo) {
-        TodoDTO.TodoDTOBuilder builder = TodoDTO.builder().id(todo.getId()).name(todo.getName()).priority(todo.getPriority().name());
+        TodoDTO.TodoDTOBuilder builder = TodoDTO.builder().id(todo.getId()).name(todo.getName());
+        if(todo.getPriority()!= null){
+            builder.priority(todo.getPriority().name());
+        }
         if (todo.getDaysToAchieve() != null) {
             builder.daysToAchieve(todo.getDaysToAchieve().getDays());
         }
