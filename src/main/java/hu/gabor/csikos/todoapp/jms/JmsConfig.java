@@ -46,37 +46,4 @@ public class JmsConfig {
         return factory;
     }
 
-/*
-    public static final String PUB_SUB = "TEST";
-@Bean
-    public JmsConnectionFactory jmsConnectionFactory() {
-        JmsConnectionFactory factory = new JmsConnectionFactory();
-        factory.setUsername(userName);
-        factory.setPassword(password);
-        factory.setRemoteURI(remoteURI);
-        return factory;
-    }
-
-    @Bean
-    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(
-            ConnectionFactory jmsConnectionFactory,
-            DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(jmsConnectionFactory);
-        configurer.configure(factory, jmsConnectionFactory);
-        factory.setPubSubDomain(true);
-        return factory;
-    }
-
-    @Bean
-    public JmsTemplate jmsTemplate(JmsConnectionFactory jmsConnectionFactory) {
-        JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
-        jmsTemplate.setDefaultDestinationName(DESTINATION_NAME);
-        jmsTemplate.setPubSubDomain(true);
-        return jmsTemplate;
-    }
-
-
-}
- */
 }
