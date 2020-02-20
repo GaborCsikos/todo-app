@@ -15,23 +15,16 @@ import org.springframework.jms.core.JmsTemplate;
 @Configuration
 @Profile("local")
 public class JmsConfig {
+
     @Value("${activemq.broker-url}")
     private String brokerUrl;
 
     @Bean
-    @Primary
-    public ActiveMQConnectionFactory senderActiveMQConnectionFactory() {
+    public CachingConnectionFactory cachingConnectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory =
                 new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
-
-        return activeMQConnectionFactory;
-    }
-
-    @Bean
-    public CachingConnectionFactory cachingConnectionFactory() {
-        return new CachingConnectionFactory(
-                senderActiveMQConnectionFactory());
+        return new CachingConnectionFactory(activeMQConnectionFactory);
     }
 
     @Bean
