@@ -70,6 +70,5 @@ public class TodoappApplication implements ApplicationListener<ApplicationReadyE
 		DatabasePopulatorUtils.execute(populator, dataSource);
 		serverEngine.syncTriggers();
 
-
 	}
 }

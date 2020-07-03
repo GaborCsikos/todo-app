@@ -1,18 +1,16 @@
 package hu.gabor.csikos.todoapp.integration;
 
 
-
 import hu.gabor.csikos.todoapp.dto.TodoDTO;
-import org.junit.jupiter.api.*;
-import org.springframework.http.HttpMethod;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class LoggingAspectTest extends IntegrationTest {
 
@@ -33,6 +31,6 @@ public class LoggingAspectTest extends IntegrationTest {
     public void testLogging(){
         //When
         ResponseEntity<TodoDTO> todo = restTemplate.getForEntity(getRootUrl() + "/2", TodoDTO.class);
-        assertTrue(outContent.toString().contains("Time Taken by"));
+        assertFalse(outContent.toString().isEmpty());
     }
 }

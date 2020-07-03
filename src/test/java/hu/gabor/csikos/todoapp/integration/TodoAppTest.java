@@ -40,6 +40,7 @@ public class TodoAppTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4L))
                 .andExpect(jsonPath("$.name").value("locally"));
+        //content(objectMapper.writeValueAsString(existing))
     }
 
 }
