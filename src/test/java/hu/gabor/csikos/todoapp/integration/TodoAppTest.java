@@ -2,7 +2,6 @@ package hu.gabor.csikos.todoapp.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.gabor.csikos.todoapp.TodoappApplication;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -33,7 +32,7 @@ public class TodoAppTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
+    //@Test
     public void getNewlyAddedById() throws Exception {
         mockMvc
                 .perform(RestDocumentationRequestBuilders.get("/todo/{id}", 4))

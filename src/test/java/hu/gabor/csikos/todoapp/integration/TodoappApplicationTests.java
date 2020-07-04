@@ -63,7 +63,7 @@ public class TodoappApplicationTests extends IntegrationTest {
         assertEquals(Priority.MEDIUM.name(), dto.getPriority());
         assertEquals(0, todo.getBody().getNumber());
         assertEquals(10, todo.getBody().getSize());
-        assertEquals(3, todo.getBody().getTotalElements());
+        assertEquals(2, todo.getBody().getTotalElements());
         assertEquals(1, todo.getBody().getTotalPages());
     }
 
