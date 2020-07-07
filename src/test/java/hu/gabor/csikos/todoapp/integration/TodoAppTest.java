@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TodoappApplication.class)
 public class TodoAppTest {
 
